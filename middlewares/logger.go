@@ -19,8 +19,8 @@ type (
 )
 
 var (
-	// Default 默认的日志中间件
-	Default = &Logger{}
+	// DefaultLogger 默认的日志中间件
+	DefaultLogger = &Logger{}
 )
 
 // Name 日志中间件配置名称
@@ -58,8 +58,8 @@ func (l *Logger) Logger() gin.HandlerFunc {
 
 	return ginlog.Logger(logger, ginlog.Options{
 		TimeFormat:        time.RFC3339,
-		RequestBodyLimit:  l.RequestBodyLimit,
-		RequestQueryLimit: l.RequestQueryLimit,
-		ResponseBodyLimit: l.ResponseBodyLimit,
+		RequestBodyLimit:  int(l.RequestBodyLimit),
+		RequestQueryLimit: int(l.RequestQueryLimit),
+		ResponseBodyLimit: int(l.ResponseBodyLimit),
 	})
 }
