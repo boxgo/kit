@@ -24,24 +24,12 @@ type (
 
 var (
 	// DefaultCookieHacker 默认的cookie转换header功能
-	DefaultCookieHacker = &CookieHacker{}
+	DefaultCookieHacker = NewCookieHacker("cookieHacker")
 )
 
 // Name 配置文件名称
 func (c *CookieHacker) Name() string {
 	return c.name
-}
-
-// ConfigWillLoad 配置文件将要加载
-func (c *CookieHacker) ConfigWillLoad() {
-
-}
-
-// ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (c *CookieHacker) ConfigDidLoad() {
-	if c.name == "" {
-		c.name = "cookieHacker"
-	}
 }
 
 // Hijacker support session id by header
@@ -79,8 +67,9 @@ func (w bodyWriter) Write(b []byte) (int, error) {
 	return w.ResponseWriter.Write(b)
 }
 
-func NewCookieHacker(name string) {
-	&CookieHacker{
+// NewCookieHacker 返回一个CookieHacker
+func NewCookieHacker(name string) *CookieHacker {
+	return &CookieHacker{
 		name: name,
 	}
 }
