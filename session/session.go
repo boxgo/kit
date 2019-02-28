@@ -63,14 +63,14 @@ func (s *Session) Session() gin.HandlerFunc {
 	var err error
 	var store redis.Store
 
-	switch opts.Mode {
+	switch s.Mode {
 	case Standalone:
-		store, err = redis.NewStoreWithDB(opts.PoolSize, "tcp", opts.Address[0], opts.Password, strconv.Itoa(opts.DB), []byte(opts.KeyPair))
+		store, err = redis.NewStoreWithDB(s.PoolSize, "tcp", s.Address[0], s.Password, strconv.Itoa(s.DB), []byte(s.KeyPair))
 	case Sentinel:
-		store, err = redis.NewStoreWithPool(newSentinelPool(opts.MasterName, opts.Address, SentinelOptions{
-			Password: opts.Password,
-			DB:       opts.DB,
-		}), []byte(opts.KeyPair))
+		store, err = redis.NewStoreWithPool(newSentinelPool(s.MasterName, s.Address, SentinelOptions{
+			Password: s.Password,
+			DB:       s.DB,
+		}), []byte(s.KeyPair))
 	default:
 		err = errors.New("未支持的Session redis集群类型")
 	}
@@ -79,5 +79,5 @@ func (s *Session) Session() gin.HandlerFunc {
 		panic(err)
 	}
 
-	return sessions.Sessions(opts.SessionKeyName, store)
+	return sessions.Sessions(s.SessionKeyName, store)
 }
