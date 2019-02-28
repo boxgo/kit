@@ -5,6 +5,7 @@ import (
 
 	"github.com/boxgo/box/logger"
 	"github.com/boxgo/kit/mongo"
+	"github.com/globalsign/mgo/bson"
 )
 
 type (
@@ -13,7 +14,7 @@ type (
 		name  string
 		mongo *mongo.Mongo
 
-		originID   string `json:"originId"`
+		OriginID   string `json:"originId"`
 		DB         string `json:"db"`
 		Collection string `json:"collection"`
 	}
@@ -44,7 +45,7 @@ func (ts *TokenStore) ConfigWillLoad() {
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
 func (ts *TokenStore) ConfigDidLoad() {
-	if ts.originID == "" {
+	if ts.OriginID == "" {
 		panic("originId require config")
 	}
 
@@ -61,10 +62,14 @@ func (ts *TokenStore) ConfigDidLoad() {
 	}
 }
 
+func (ts *TokenStore) SetMongo(mongo *mongo.Mongo) {
+	ts.mongo = mongo
+}
+
 // Get 获取token
 func (ts *TokenStore) Get() (token string, exipreIn int, expireAt time.Time) {
 	doc := wechatToken{}
-	err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Find(bson.M{"originId": ts.originID}).One(&doc)
+	err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Find(bson.M{"originId": ts.OriginID}).One(&doc)
 	if err != nil {
 		logger.Default.Errorw("TokenStore.Get.Error", "tokenStore", ts)
 	}
@@ -78,9 +83,9 @@ func (ts *TokenStore) Set(token string, exipreIn int, expireAt time.Time) {
 		Token:    token,
 		ExipreIn: exipreIn,
 		ExpireAt: expireAt,
-		OriginID: ts.originID,
+		OriginID: ts.OriginID,
 	}
-	_, err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Upsert(bson.M{"originId": ts.originID}, doc)
+	_, err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Upsert(bson.M{"originId": ts.OriginID}, doc)
 
 	if err != nil {
 		logger.Default.Errorw("TokenStore.Set.Error", "tokenStore", ts)
@@ -90,7 +95,6 @@ func (ts *TokenStore) Set(token string, exipreIn int, expireAt time.Time) {
 // New 新建一个指定名称的tokenstore
 func New(name string) *TokenStore {
 	return &TokenStore{
-		name:  name,
-		mongo: mongo.NewMongo(name),
+		name: name,
 	}
 }

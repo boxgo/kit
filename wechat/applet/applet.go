@@ -3,7 +3,6 @@ package applet
 import (
 	"github.com/BiteBit/applet"
 	"github.com/BiteBit/applet/api"
-	"github.com/BiteBit/gorequest"
 )
 
 type (
@@ -18,10 +17,10 @@ type (
 		APIDomain   string `json:"apiDomain"`
 		APIBasePath string `json:"apiBasePath"`
 
-		tokenStore *TokenStore
-		applet     *applet.Applet
-		before     func(agent *gorequest.SuperAgent)
-		after      func(agent *gorequest.SuperAgent, errs []error, body string, resp *gorequest.Response)
+		*applet.Applet
+		tokenStore api.WechatTokenStore
+		before     api.Before
+		after      api.After
 	}
 )
 
@@ -38,6 +37,16 @@ func (app *Applet) Name() string {
 // SetTokenStore 设置tokenstore
 func (app *Applet) SetTokenStore(tokenStore api.WechatTokenStore) {
 	app.tokenStore = tokenStore
+}
+
+// SetBefore set before hook
+func (app *Applet) SetBefore(before api.Before) {
+	app.before = before
+}
+
+// SetAfter set after hook
+func (app *Applet) SetAfter(after api.After) {
+	app.after = after
 }
 
 // ConfigWillLoad 配置文件将要加载
@@ -60,7 +69,7 @@ func (app *Applet) ConfigDidLoad() {
 	mp.API.SetBefore(app.before)
 	mp.API.SetAftre(app.after)
 
-	app.applet = mp
+	app.Applet = mp
 }
 
 // New 新建一个加载指定配置文件的小程序sdk
