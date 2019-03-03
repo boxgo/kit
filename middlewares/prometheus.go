@@ -7,10 +7,10 @@ type (
 	Prometheus struct {
 		NameSpace                       string `json:"namespace"`
 		SubModule                       string `json:"submodule"`
-		LabelHTTPRequestTotal           string `json:"labelHttpRequestTotal"`
-		LabelHTTPrequestDurationSeconds string `json:"labelHttpRequestDurationSeconds"`
-		LabelHTTPrequestSizeBytes       string `json:"labelHttpRequestSizeBytes"`
-		LabelHTTPresponseSizeBytes      string `json:"labelHttpResponseSizeBytes"`
+		LabelHTTPRequestTotal           string `json:"requestTotal"`
+		LabelHTTPrequestDurationSeconds string `json:"requestDurSeconds"`
+		LabelHTTPrequestSizeBytes       string `json:"requestSizeBytes"`
+		LabelHTTPresponseSizeBytes      string `json:"responseSizeBytes"`
 
 		*ginprom.Prom
 	}
@@ -50,7 +50,7 @@ func (p *Prometheus) ConfigDidLoad() {
 	}
 
 	p.Prom = ginprom.New(
-		p.Name,
+		p.NameSpace,
 		p.SubModule,
 		p.LabelHTTPRequestTotal,
 		p.LabelHTTPrequestDurationSeconds,
