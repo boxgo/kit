@@ -24,12 +24,12 @@ type (
 
 var (
 	// DefaultCookieHacker 默认的cookie转换header功能
-	DefaultCookieHacker = NewCookieHacker("cookieHacker")
+	DefaultCookieHacker = NewCookieHacker("cookie2header")
 )
 
 // Name 配置文件名称
 func (c *CookieHacker) Name() string {
-	return c.name
+	return "middleware." + c.name
 }
 
 // Hijacker support session id by header

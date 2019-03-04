@@ -25,7 +25,7 @@ var (
 
 // Name 日志中间件配置名称
 func (l *Logger) Name() string {
-	return "middlewareLogger"
+	return "middleware.logger"
 }
 
 // ConfigWillLoad 配置文件将要加载

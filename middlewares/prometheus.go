@@ -23,7 +23,7 @@ var (
 
 // Name 配置名称
 func (p *Prometheus) Name() string {
-	return "prometheus"
+	return "middleware.prometheus"
 }
 
 // ConfigWillLoad 配置文件将要加载
