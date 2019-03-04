@@ -61,11 +61,9 @@ func (l *RedisLock) IsLocked(key string) (bool, error) {
 
 	if err != nil {
 		if err.Error() == "redis: nil" {
-			println(1)
 			return false, nil
 		}
 
-		println(2)
 		return false, err
 	}
 
