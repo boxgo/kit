@@ -48,7 +48,7 @@ func (l *RedisLock) IsLocked(key string) (bool, error) {
 // UnLock 解锁key
 func (l *RedisLock) UnLock(key string) error {
 	_, err := l.Del(key).Result()
-	logger.Default.Debugf("redislock.UnLock key: %s err: %s", key, err)
+	logger.Default.Debugf("redislock.UnLock key: %s err: %#v", key, err)
 
 	return err
 }

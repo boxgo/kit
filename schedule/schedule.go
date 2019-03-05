@@ -13,11 +13,12 @@ type (
 	// Schedule 定时任务管理
 	Schedule struct {
 		name        string
-		Type        Type   `json:"type" desc:"Once: 1, Timing: 2, OnceAndTiming: 3"`
-		LockPrefix  string `json:"lockPrefix" desc:"Prefix of lock"`
-		LockSeconds uint   `json:"lockSeconds" desc:"Lock ttl"`
-		Compete     bool   `json:"compete" desc:"Only winner can exec schedule"`
-		Spec        string `json:"spec" desc:"Cron spec info"`
+		Type        Type   `config:"type" desc:"Once: 1, Timing: 2, OnceAndTiming: 3"`
+		LockPrefix  string `config:"lockPrefix" desc:"Prefix of lock"`
+		LockSeconds uint   `config:"lockSeconds" desc:"Lock ttl"`
+		AutoUnlock  bool   `config:"autoUnlock" desc:"Auto unlock after task finish"`
+		Compete     bool   `config:"compete" desc:"Only winner can exec schedule"`
+		Spec        string `config:"spec" desc:"Cron spec info"`
 
 		cron          *cron.Cron
 		lock          lock.Lock
@@ -118,8 +119,8 @@ func (s *Schedule) execTiming() {
 func (s *Schedule) exec(handler Handler) {
 	go func() {
 		defer func() {
-			if s.Compete {
-				// s.lock.UnLock(s.lockKey())
+			if s.Compete && s.AutoUnlock {
+				s.lock.UnLock(s.lockKey())
 			}
 
 			if err := recover(); err != nil {
