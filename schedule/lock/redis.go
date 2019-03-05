@@ -5,7 +5,6 @@ import (
 
 	"github.com/boxgo/box/logger"
 	"github.com/boxgo/kit/redis"
-	// "github.com/go-redis/redis"
 )
 
 type (

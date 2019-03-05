@@ -17,7 +17,7 @@
 
 # MQ
 
-- [ ] RabbitMQ
+- [x] RabbitMQ
 - [ ] Kafka
 
 # Tools
