@@ -1,4 +1,4 @@
-package token
+package store
 
 import (
 	"time"
@@ -9,8 +9,8 @@ import (
 )
 
 type (
-	// TokenStore token存储器
-	TokenStore struct {
+	// MgoTokenStore token存储器
+	MgoTokenStore struct {
 		name  string
 		mongo *mongo.Mongo
 
@@ -29,22 +29,22 @@ type (
 )
 
 var (
-	// Default 默认的applet token store配置
-	Default = New("applet")
+	// DefaultMgoStore 默认的applet token store配置
+	DefaultMgoStore = New("applet")
 )
 
 // Name token 配置文件名称
-func (ts *TokenStore) Name() string {
+func (ts *MgoTokenStore) Name() string {
 	return ts.name
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (ts *TokenStore) ConfigWillLoad() {
+func (ts *MgoTokenStore) ConfigWillLoad() {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (ts *TokenStore) ConfigDidLoad() {
+func (ts *MgoTokenStore) ConfigDidLoad() {
 	if ts.OriginID == "" {
 		panic("originId require config")
 	}
@@ -62,23 +62,23 @@ func (ts *TokenStore) ConfigDidLoad() {
 	}
 }
 
-func (ts *TokenStore) SetMongo(mongo *mongo.Mongo) {
+func (ts *MgoTokenStore) SetMongo(mongo *mongo.Mongo) {
 	ts.mongo = mongo
 }
 
 // Get 获取token
-func (ts *TokenStore) Get() (token string, exipreIn int, expireAt time.Time) {
+func (ts *MgoTokenStore) Get() (token string, exipreIn int, expireAt time.Time) {
 	doc := wechatToken{}
 	err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Find(bson.M{"originId": ts.OriginID}).One(&doc)
 	if err != nil {
-		logger.Default.Errorw("TokenStore.Get.Error", "tokenStore", ts)
+		logger.Default.Errorw("MgoTokenStore.Get.Error", "tokenStore", ts)
 	}
 
 	return doc.Token, doc.ExipreIn, doc.ExpireAt
 }
 
 // Set 保存token
-func (ts *TokenStore) Set(token string, exipreIn int, expireAt time.Time) {
+func (ts *MgoTokenStore) Set(token string, exipreIn int, expireAt time.Time) {
 	doc := wechatToken{
 		Token:    token,
 		ExipreIn: exipreIn,
@@ -88,13 +88,13 @@ func (ts *TokenStore) Set(token string, exipreIn int, expireAt time.Time) {
 	_, err := ts.mongo.GetDB(ts.DB).C(ts.Collection).Upsert(bson.M{"originId": ts.OriginID}, doc)
 
 	if err != nil {
-		logger.Default.Errorw("TokenStore.Set.Error", "tokenStore", ts)
+		logger.Default.Errorw("MgoTokenStore.Set.Error", "tokenStore", ts)
 	}
 }
 
 // New 新建一个指定名称的tokenstore
-func New(name string) *TokenStore {
-	return &TokenStore{
+func New(name string) *MgoTokenStore {
+	return &MgoTokenStore{
 		name: name,
 	}
 }
