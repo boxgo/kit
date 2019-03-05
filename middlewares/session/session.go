@@ -35,7 +35,7 @@ var (
 )
 
 func (s *Session) Name() string {
-	return "session"
+	return "middleware.session"
 }
 
 // ConfigWillLoad 配置文件将要加载
