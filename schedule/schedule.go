@@ -13,12 +13,13 @@ type (
 	// Schedule 定时任务管理
 	Schedule struct {
 		name        string
-		Type        Type   `config:"type" desc:"Once: 1, Timing: 2, OnceAndTiming: 3"`
-		LockPrefix  string `config:"lockPrefix" desc:"Prefix of lock"`
-		LockSeconds uint   `config:"lockSeconds" desc:"Lock ttl"`
-		AutoUnlock  bool   `config:"autoUnlock" desc:"Auto unlock after task finish"`
-		Compete     bool   `config:"compete" desc:"Only winner can exec schedule"`
-		Spec        string `config:"spec" desc:"Cron spec info"`
+		Type        Type        `config:"type" desc:"Once: 1, Timing: 2, OnceAndTiming: 3"`
+		LockPrefix  string      `config:"lockPrefix" desc:"Prefix of lock"`
+		LockSeconds uint        `config:"lockSeconds" desc:"Lock ttl"`
+		AutoUnlock  bool        `config:"autoUnlock" desc:"Auto unlock after task finish"`
+		Compete     bool        `config:"compete" desc:"Only winner can exec schedule"`
+		Spec        string      `config:"spec" desc:"Cron spec info"`
+		Args        interface{} `config:"args" desc:"Args"`
 
 		cron          *cron.Cron
 		lock          lock.Lock
