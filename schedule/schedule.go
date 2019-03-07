@@ -36,8 +36,8 @@ type (
 )
 
 const (
-	// Invalid 无效
-	Invalid = Type(0)
+	// Stop 停止
+	Stop = Type(0)
 	// Once 一次性的，立即执行一次
 	Once = Type(1)
 	// Timing 定时的，周期执行
@@ -58,7 +58,7 @@ func (s *Schedule) ConfigWillLoad() {
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
 func (s *Schedule) ConfigDidLoad() {
-	if s.name == "" || s.Type == Invalid || s.Spec == "" {
+	if s.name == "" || s.Spec == "" {
 		panic("schedules config is invalid")
 	}
 
