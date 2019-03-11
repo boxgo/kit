@@ -51,6 +51,16 @@ func (m *Mongo) ConfigDidLoad(context.Context) {
 	}
 }
 
+func (m *Mongo) Serve(ctx context.Context) error {
+	return nil
+}
+
+func (m *Mongo) Shutdown(ctx context.Context) error {
+	m.session.Close()
+
+	return nil
+}
+
 // GetSession 获取指定数据库连接
 func (m *Mongo) GetSession() *mgo.Session {
 	if m.session != nil {

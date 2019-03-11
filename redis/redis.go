@@ -52,6 +52,14 @@ func (l *Redis) ConfigDidLoad(context.Context) {
 	})
 }
 
+func (l *Redis) Serve(ctx context.Context) error {
+	return nil
+}
+
+func (l *Redis) Shutdown(ctx context.Context) error {
+	return l.Close()
+}
+
 // New a redis lock
 func New(name string) *Redis {
 	return &Redis{
