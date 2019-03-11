@@ -1,6 +1,10 @@
 package mongo
 
-import "github.com/globalsign/mgo"
+import (
+	"context"
+
+	"github.com/globalsign/mgo"
+)
 
 type (
 	// Mongo mongodb数据库

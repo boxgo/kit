@@ -5,7 +5,7 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/boxgo/box/logger"
+	"github.com/boxgo/kit/logger"
 	"github.com/boxgo/kit/schedule/lock"
 	"github.com/robfig/cron"
 )

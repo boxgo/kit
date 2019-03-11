@@ -1,9 +1,10 @@
 package store
 
 import (
+	"context"
 	"time"
 
-	"github.com/boxgo/box/logger"
+	"github.com/boxgo/kit/logger"
 	"github.com/boxgo/kit/mongo"
 	"github.com/globalsign/mgo/bson"
 )

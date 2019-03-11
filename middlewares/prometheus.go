@@ -1,6 +1,10 @@
 package middlewares
 
-import "github.com/BiteBit/ginprom"
+import (
+	"context"
+
+	"github.com/BiteBit/ginprom"
+)
 
 type (
 	// Prometheus 中间件

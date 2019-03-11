@@ -2,7 +2,7 @@ package request
 
 import (
 	"github.com/BiteBit/gorequest"
-	"github.com/boxgo/box/logger"
+	"github.com/boxgo/kit/logger"
 )
 
 func logBefore(agent *gorequest.SuperAgent) {

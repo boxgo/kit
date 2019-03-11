@@ -1,10 +1,11 @@
 package middlewares
 
 import (
+	"context"
 	"time"
 
 	"github.com/BiteBit/ginlog"
-	"github.com/boxgo/box/logger"
+	"github.com/boxgo/kit/logger"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,6 +1,7 @@
 package rabbitmq
 
 import (
+	"context"
 	"time"
 
 	"github.com/streadway/amqp"
@@ -53,6 +54,14 @@ func (mq *RabbitMQ) ConfigDidLoad(context.Context) {
 	}
 
 	mq.Connection = conn
+}
+
+func (mq *RabbitMQ) Serve(ctx context.Context) error {
+	return nil
+}
+
+func (mq *RabbitMQ) Shutdown(ctx context.Context) error {
+	return mq.Close()
 }
 
 // New options

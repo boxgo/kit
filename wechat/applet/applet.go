@@ -1,6 +1,8 @@
 package applet
 
 import (
+	"context"
+
 	"github.com/BiteBit/applet"
 	"github.com/BiteBit/applet/api"
 )

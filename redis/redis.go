@@ -1,6 +1,10 @@
 package redis
 
-import "github.com/go-redis/redis"
+import (
+	"context"
+
+	"github.com/go-redis/redis"
+)
 
 type (
 	// Redis config

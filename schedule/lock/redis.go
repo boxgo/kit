@@ -3,7 +3,7 @@ package lock
 import (
 	"time"
 
-	"github.com/boxgo/box/logger"
+	"github.com/boxgo/kit/logger"
 	"github.com/boxgo/kit/redis"
 )
 
