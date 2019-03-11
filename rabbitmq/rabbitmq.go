@@ -31,12 +31,12 @@ func (mq *RabbitMQ) Name() string {
 }
 
 // ConfigWillLoad before hook
-func (mq *RabbitMQ) ConfigWillLoad() {
+func (mq *RabbitMQ) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad after hook
-func (mq *RabbitMQ) ConfigDidLoad() {
+func (mq *RabbitMQ) ConfigDidLoad(context.Context) {
 	if mq.URI == "" {
 		panic("rabbitmq config is invalid")
 	}

@@ -1,6 +1,7 @@
 package schedule
 
 import (
+	"context"
 	"runtime/debug"
 	"time"
 
@@ -52,12 +53,12 @@ func (s *Schedule) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (s *Schedule) ConfigWillLoad() {
+func (s *Schedule) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (s *Schedule) ConfigDidLoad() {
+func (s *Schedule) ConfigDidLoad(context.Context) {
 	if s.name == "" || s.Spec == "" {
 		panic("schedules config is invalid")
 	}

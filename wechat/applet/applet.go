@@ -50,12 +50,12 @@ func (app *Applet) SetAfter(after api.After) {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (app *Applet) ConfigWillLoad() {
+func (app *Applet) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (app *Applet) ConfigDidLoad() {
+func (app *Applet) ConfigDidLoad(context.Context) {
 	mp := applet.NewApplet(
 		app.AppID,
 		app.AppSecret,

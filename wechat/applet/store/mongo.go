@@ -39,12 +39,12 @@ func (ts *MgoTokenStore) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (ts *MgoTokenStore) ConfigWillLoad() {
+func (ts *MgoTokenStore) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (ts *MgoTokenStore) ConfigDidLoad() {
+func (ts *MgoTokenStore) ConfigDidLoad(context.Context) {
 	if ts.OriginID == "" {
 		panic("originId require config")
 	}

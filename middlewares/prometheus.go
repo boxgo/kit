@@ -27,12 +27,12 @@ func (p *Prometheus) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (p *Prometheus) ConfigWillLoad() {
+func (p *Prometheus) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (p *Prometheus) ConfigDidLoad() {
+func (p *Prometheus) ConfigDidLoad(context.Context) {
 	if p.LabelHTTPRequestTotal == "" {
 		p.LabelHTTPRequestTotal = "http_request_total"
 	}

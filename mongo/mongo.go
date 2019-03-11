@@ -28,12 +28,12 @@ func (m *Mongo) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (m *Mongo) ConfigWillLoad() {
+func (m *Mongo) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (m *Mongo) ConfigDidLoad() {
+func (m *Mongo) ConfigDidLoad(context.Context) {
 	if m.PoolLimit == 0 {
 		m.PoolLimit = 200
 	}

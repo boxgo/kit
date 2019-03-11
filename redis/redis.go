@@ -28,12 +28,12 @@ func (l *Redis) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (l *Redis) ConfigWillLoad() {
+func (l *Redis) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (l *Redis) ConfigDidLoad() {
+func (l *Redis) ConfigDidLoad(context.Context) {
 	if len(l.Address) == 0 || l.name == "" {
 		panic("redis config is invalid")
 	}

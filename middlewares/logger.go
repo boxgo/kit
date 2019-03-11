@@ -29,12 +29,12 @@ func (l *Logger) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (l *Logger) ConfigWillLoad() {
+func (l *Logger) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (l *Logger) ConfigDidLoad() {
+func (l *Logger) ConfigDidLoad(context.Context) {
 	if l.TimeFormat == "" {
 		l.TimeFormat = time.RFC3339
 	}

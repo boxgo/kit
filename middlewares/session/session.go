@@ -39,12 +39,12 @@ func (s *Session) Name() string {
 }
 
 // ConfigWillLoad 配置文件将要加载
-func (s *Session) ConfigWillLoad() {
+func (s *Session) ConfigWillLoad(context.Context) {
 
 }
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
-func (s *Session) ConfigDidLoad() {
+func (s *Session) ConfigDidLoad(context.Context) {
 	if s.Mode == 0 {
 		s.Mode = Standalone
 	}
