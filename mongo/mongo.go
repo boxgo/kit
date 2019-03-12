@@ -56,7 +56,9 @@ func (m *Mongo) Serve(ctx context.Context) error {
 }
 
 func (m *Mongo) Shutdown(ctx context.Context) error {
-	m.session.Close()
+	if m.session != nil {
+		m.session.Close()
+	}
 
 	return nil
 }

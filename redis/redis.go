@@ -57,7 +57,11 @@ func (l *Redis) Serve(ctx context.Context) error {
 }
 
 func (l *Redis) Shutdown(ctx context.Context) error {
-	return l.Close()
+	if l.UniversalClient != nil {
+		return l.Close()
+	}
+
+	return nil
 }
 
 // New a redis lock

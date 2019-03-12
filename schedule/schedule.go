@@ -76,6 +76,16 @@ func (s *Schedule) ConfigDidLoad(context.Context) {
 	}
 }
 
+func (s *Schedule) Serve(context.Context) error {
+	return nil
+}
+
+func (s *Schedule) Shutdown(context.Context) error {
+	s.cron.Stop()
+
+	return nil
+}
+
 // Exts 获取app信息
 func (s *Schedule) Exts() []minibox.MiniBox {
 	return []minibox.MiniBox{&s.app}
