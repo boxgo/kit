@@ -81,7 +81,9 @@ func (s *Schedule) Serve(context.Context) error {
 }
 
 func (s *Schedule) Shutdown(context.Context) error {
-	s.cron.Stop()
+	if s.cron != nil {
+		s.cron.Stop()
+	}
 
 	return nil
 }
