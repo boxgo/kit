@@ -64,8 +64,8 @@ func (logger *Logger) ConfigWillLoad(context.Context) {
 }
 
 // ConfigDidLoad did load
-func (logger *Logger) ConfigDidLoad(context.Context) {
-
+func (logger *Logger) ConfigDidLoad(ctx context.Context) {
+	logger.ConfigWillLoad(ctx)
 }
 
 // Trace logger with requestId and uid
