@@ -22,7 +22,7 @@ type (
 		Compete     bool        `config:"compete" desc:"Only winner can exec schedule"`
 		Spec        string      `config:"spec" desc:"Cron spec info"`
 		Args        interface{} `config:"args" desc:"Args"`
-		App         minibox.App
+		app         minibox.App
 
 		cron          *cron.Cron
 		lock          lock.Lock
@@ -66,7 +66,7 @@ func (s *Schedule) ConfigDidLoad(context.Context) {
 	}
 
 	if s.LockPrefix == "" {
-		s.LockPrefix = s.App.AppName
+		s.LockPrefix = s.app.AppName
 	}
 
 	if s.LockSeconds == 0 {
@@ -78,7 +78,7 @@ func (s *Schedule) ConfigDidLoad(context.Context) {
 
 // Exts 获取app信息
 func (s *Schedule) Exts() []minibox.MiniBox {
-	return []minibox.MiniBox{&s.App}
+	return []minibox.MiniBox{&s.app}
 }
 
 // SetLock 设置lock

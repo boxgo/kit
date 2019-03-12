@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/BiteBit/gorequest"
+	"github.com/boxgo/box/minibox"
 )
 
 type (
@@ -14,6 +15,8 @@ type (
 		UserAgent string `config:"userAgent" desc:"Client User-Agent"`
 		ShowLog   bool   `config:"showLog" desc:"Show request log"`
 		Trace     bool   `config:"trace" desc:"Open prometheus trace"`
+
+		app minibox.App
 	}
 )
 
@@ -28,6 +31,21 @@ var (
 // Name config prefix name
 func (opts *Options) Name() string {
 	return "request"
+}
+
+// Exts 获取app信息
+func (opts *Options) Exts() []minibox.MiniBox {
+	return []minibox.MiniBox{&opts.app}
+}
+
+func (opts *Options) ConfigWillLoad(context.Context) {
+
+}
+
+func (opts *Options) ConfigDidLoad(context.Context) {
+	if opts.UserAgent == "" {
+		opts.UserAgent = opts.app.AppName
+	}
 }
 
 // NewTraceRequest new a trace request

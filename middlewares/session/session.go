@@ -5,6 +5,7 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/boxgo/box/minibox"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,8 @@ type (
 		DB             int      `json:"db"`         // 数据库
 		KeyPair        string   `json:"keyPair"`    // 加密参数
 		PoolSize       int      `json:"poolSize"`   // 连接池大小
+
+		app minibox.App
 	}
 )
 
@@ -39,6 +42,11 @@ func (s *Session) Name() string {
 	return "middleware.session"
 }
 
+// Exts 获取app信息
+func (s *Session) Exts() []minibox.MiniBox {
+	return []minibox.MiniBox{&s.app}
+}
+
 // ConfigWillLoad 配置文件将要加载
 func (s *Session) ConfigWillLoad(context.Context) {
 
@@ -48,6 +56,10 @@ func (s *Session) ConfigWillLoad(context.Context) {
 func (s *Session) ConfigDidLoad(context.Context) {
 	if s.Mode == 0 {
 		s.Mode = Standalone
+	}
+
+	if s.SessionKeyName == "" {
+		s.SessionKeyName = s.app.AppName
 	}
 
 	if s.SessionKeyName == "" {

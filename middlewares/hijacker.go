@@ -2,7 +2,9 @@ package middlewares
 
 import (
 	"bytes"
+	"context"
 
+	"github.com/boxgo/box/minibox"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +14,7 @@ type (
 		CookieName string `json:"cookieName"` // 原始的cookie名称
 		HeaderName string `json:"headerName"` // 目标的header名称
 
+		app  minibox.App
 		name string
 	}
 
@@ -53,6 +56,21 @@ func (c *CookieHacker) Hijacker() gin.HandlerFunc {
 		ctx.Writer = bodyWriter
 
 		ctx.Next()
+	}
+}
+
+// Exts 获取app信息
+func (c *CookieHacker) Exts() []minibox.MiniBox {
+	return []minibox.MiniBox{&c.app}
+}
+
+func (c *CookieHacker) ConfigWillLoad(context.Context) {
+
+}
+
+func (c *CookieHacker) ConfigDidLoad(context.Context) {
+	if c.CookieName == "" {
+		c.CookieName = c.app.AppName
 	}
 }
 
