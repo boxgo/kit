@@ -16,8 +16,8 @@ type (
 		FrameSize  int           `json:"frameSize" desc:"0 max bytes means unlimited"`
 		Heartbeat  time.Duration `json:"heartbeat" desc:"less than 1s uses the server's interval"`
 
-		name string
-		*amqp.Connection
+		name             string
+		*amqp.Connection `json:"-"`
 	}
 )
 
