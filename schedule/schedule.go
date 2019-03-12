@@ -5,6 +5,7 @@ import (
 	"runtime/debug"
 	"time"
 
+	"github.com/boxgo/box/minibox"
 	"github.com/boxgo/kit/logger"
 	"github.com/boxgo/kit/schedule/lock"
 	"github.com/robfig/cron"
@@ -21,6 +22,7 @@ type (
 		Compete     bool        `config:"compete" desc:"Only winner can exec schedule"`
 		Spec        string      `config:"spec" desc:"Cron spec info"`
 		Args        interface{} `config:"args" desc:"Args"`
+		App         minibox.App
 
 		cron          *cron.Cron
 		lock          lock.Lock
@@ -63,11 +65,20 @@ func (s *Schedule) ConfigDidLoad(context.Context) {
 		panic("schedules config is invalid")
 	}
 
+	if s.LockPrefix == "" {
+		s.LockPrefix = s.App.AppName
+	}
+
 	if s.LockSeconds == 0 {
 		s.LockDuration = time.Second * 10
 	} else {
 		s.LockDuration = time.Duration(1000000000 * s.LockSeconds)
 	}
+}
+
+// Exts 获取app信息
+func (s *Schedule) Exts() []minibox.MiniBox {
+	return []minibox.MiniBox{&s.App}
 }
 
 // SetLock 设置lock
