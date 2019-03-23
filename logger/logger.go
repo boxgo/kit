@@ -75,3 +75,103 @@ func (logger *Logger) Trace(ctx context.Context) *zap.SugaredLogger {
 
 	return logger.SugaredLogger.With("requestId", requestID).With("uid", uid)
 }
+
+func DPanic(args ...interface{}) {
+	Default.DPanic(args...)
+}
+
+func DPanicf(template string, args ...interface{}) {
+	Default.DPanicf(template, args...)
+}
+
+func DPanicw(msg string, keysAndValues ...interface{}) {
+	Default.DPanicw(msg, keysAndValues...)
+}
+
+func Debug(args ...interface{}) {
+	Default.Debug(args...)
+}
+
+func Debugf(template string, args ...interface{}) {
+	Default.Debugf(template, args...)
+}
+
+func Debugw(msg string, keysAndValues ...interface{}) {
+	Default.Debugw(msg, keysAndValues...)
+}
+
+func Desugar() *zap.Logger {
+	return Default.Desugar()
+}
+
+func Error(args ...interface{}) {
+	Default.Error(args...)
+}
+
+func Errorf(template string, args ...interface{}) {
+	Default.Errorf(template, args...)
+}
+
+func Errorw(msg string, keysAndValues ...interface{}) {
+	Default.Errorw(msg, keysAndValues...)
+}
+
+func Fatal(args ...interface{}) {
+	Default.Fatal(args...)
+}
+
+func Fatalf(template string, args ...interface{}) {
+	Default.Fatalf(template, args...)
+}
+
+func Fatalw(msg string, keysAndValues ...interface{}) {
+	Default.Fatalw(msg, keysAndValues...)
+}
+
+func Info(args ...interface{}) {
+	Default.Info(args...)
+}
+
+func Infof(template string, args ...interface{}) {
+	Default.Infof(template, args...)
+}
+
+func Infow(msg string, keysAndValues ...interface{}) {
+	Default.Infow(msg, keysAndValues...)
+}
+
+func Named(name string) *zap.SugaredLogger {
+	return Default.Named(name)
+}
+
+func Panic(args ...interface{}) {
+	Default.Panic(args...)
+}
+
+func Panicf(template string, args ...interface{}) {
+	Default.Panicf(template, args...)
+}
+
+func Panicw(msg string, keysAndValues ...interface{}) {
+	Default.Panicw(msg, keysAndValues...)
+}
+
+func Sync() error {
+	return Default.Sync()
+}
+
+func Warn(args ...interface{}) {
+	Default.Warn(args...)
+}
+
+func Warnf(template string, args ...interface{}) {
+	Default.Warnf(template, args...)
+}
+
+func Warnw(msg string, keysAndValues ...interface{}) {
+	Default.Warnw(msg, keysAndValues...)
+}
+
+func With(args ...interface{}) *zap.SugaredLogger {
+	return Default.With(args...)
+}
