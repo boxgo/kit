@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"sync"
 
 	"go.uber.org/zap"
 )
@@ -13,6 +14,7 @@ type (
 		Encoding       string `json:"encoding" desc:"PS: console or json"`
 		TraceUID       string `json:"traceUid" desc:"Name as trace uid in context"`
 		TraceRequestID string `json:"traceRequestId" desc:"Name as trace requestId in context"`
+		CallerSkip     int    `json:"callerSkip" desc:"AddCallerSkip increases the number of callers skipped by caller annotation"`
 		*zap.SugaredLogger
 	}
 )
@@ -20,6 +22,8 @@ type (
 var (
 	// Default the default logger
 	Default = &Logger{}
+	global  = Default
+	once    = sync.Once{}
 )
 
 func init() {
@@ -53,7 +57,9 @@ func (logger *Logger) ConfigWillLoad(context.Context) {
 		logger.TraceRequestID = "requestId"
 	}
 
-	log, err := simpleConfig(logger.Level, logger.Encoding).Build()
+	log, err := simpleConfig(logger.Level, logger.Encoding).Build(
+		zap.AddCallerSkip(logger.CallerSkip),
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -66,6 +72,16 @@ func (logger *Logger) ConfigWillLoad(context.Context) {
 // ConfigDidLoad did load
 func (logger *Logger) ConfigDidLoad(ctx context.Context) {
 	logger.ConfigWillLoad(ctx)
+
+	once.Do(func() {
+		global = &Logger{
+			Level:          Default.Level,
+			Encoding:       Default.Encoding,
+			TraceUID:       Default.TraceUID,
+			TraceRequestID: Default.TraceRequestID,
+			SugaredLogger:  Default.SugaredLogger.Desugar().WithOptions(zap.AddCallerSkip(1)).Sugar(),
+		}
+	})
 }
 
 // Trace logger with requestId and uid
@@ -77,101 +93,101 @@ func (logger *Logger) Trace(ctx context.Context) *zap.SugaredLogger {
 }
 
 func DPanic(args ...interface{}) {
-	Default.DPanic(args...)
+	global.DPanic(args...)
 }
 
 func DPanicf(template string, args ...interface{}) {
-	Default.DPanicf(template, args...)
+	global.DPanicf(template, args...)
 }
 
 func DPanicw(msg string, keysAndValues ...interface{}) {
-	Default.DPanicw(msg, keysAndValues...)
+	global.DPanicw(msg, keysAndValues...)
 }
 
 func Debug(args ...interface{}) {
-	Default.Debug(args...)
+	global.Debug(args...)
 }
 
 func Debugf(template string, args ...interface{}) {
-	Default.Debugf(template, args...)
+	global.Debugf(template, args...)
 }
 
 func Debugw(msg string, keysAndValues ...interface{}) {
-	Default.Debugw(msg, keysAndValues...)
+	global.Debugw(msg, keysAndValues...)
 }
 
 func Desugar() *zap.Logger {
-	return Default.Desugar()
+	return global.Desugar()
 }
 
 func Error(args ...interface{}) {
-	Default.Error(args...)
+	global.Error(args...)
 }
 
 func Errorf(template string, args ...interface{}) {
-	Default.Errorf(template, args...)
+	global.Errorf(template, args...)
 }
 
 func Errorw(msg string, keysAndValues ...interface{}) {
-	Default.Errorw(msg, keysAndValues...)
+	global.Errorw(msg, keysAndValues...)
 }
 
 func Fatal(args ...interface{}) {
-	Default.Fatal(args...)
+	global.Fatal(args...)
 }
 
 func Fatalf(template string, args ...interface{}) {
-	Default.Fatalf(template, args...)
+	global.Fatalf(template, args...)
 }
 
 func Fatalw(msg string, keysAndValues ...interface{}) {
-	Default.Fatalw(msg, keysAndValues...)
+	global.Fatalw(msg, keysAndValues...)
 }
 
 func Info(args ...interface{}) {
-	Default.Info(args...)
+	global.Info(args...)
 }
 
 func Infof(template string, args ...interface{}) {
-	Default.Infof(template, args...)
+	global.Infof(template, args...)
 }
 
 func Infow(msg string, keysAndValues ...interface{}) {
-	Default.Infow(msg, keysAndValues...)
+	global.Infow(msg, keysAndValues...)
 }
 
 func Named(name string) *zap.SugaredLogger {
-	return Default.Named(name)
+	return global.Named(name)
 }
 
 func Panic(args ...interface{}) {
-	Default.Panic(args...)
+	global.Panic(args...)
 }
 
 func Panicf(template string, args ...interface{}) {
-	Default.Panicf(template, args...)
+	global.Panicf(template, args...)
 }
 
 func Panicw(msg string, keysAndValues ...interface{}) {
-	Default.Panicw(msg, keysAndValues...)
+	global.Panicw(msg, keysAndValues...)
 }
 
 func Sync() error {
-	return Default.Sync()
+	return global.Sync()
 }
 
 func Warn(args ...interface{}) {
-	Default.Warn(args...)
+	global.Warn(args...)
 }
 
 func Warnf(template string, args ...interface{}) {
-	Default.Warnf(template, args...)
+	global.Warnf(template, args...)
 }
 
 func Warnw(msg string, keysAndValues ...interface{}) {
-	Default.Warnw(msg, keysAndValues...)
+	global.Warnw(msg, keysAndValues...)
 }
 
 func With(args ...interface{}) *zap.SugaredLogger {
-	return Default.With(args...)
+	return global.With(args...)
 }
