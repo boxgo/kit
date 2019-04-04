@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"context"
-	"time"
 
 	"github.com/BiteBit/ginlog"
 	"github.com/boxgo/kit/logger"
@@ -12,10 +11,9 @@ import (
 type (
 	// Logger gin中间件
 	Logger struct {
-		TimeFormat        string `json:"timeFormat"`
-		RequestBodyLimit  uint   `json:"requestBodyLimit"`
-		RequestQueryLimit uint   `json:"requestQueryLimit"`
-		ResponseBodyLimit uint   `json:"responseBodyLimit"`
+		RequestBodyLimit  uint `json:"requestBodyLimit"`
+		RequestQueryLimit uint `json:"requestQueryLimit"`
+		ResponseBodyLimit uint `json:"responseBodyLimit"`
 	}
 )
 
@@ -36,10 +34,6 @@ func (l *Logger) ConfigWillLoad(context.Context) {
 
 // ConfigDidLoad 配置文件已经加载。做一些默认值设置
 func (l *Logger) ConfigDidLoad(context.Context) {
-	if l.TimeFormat == "" {
-		l.TimeFormat = time.RFC3339
-	}
-
 	if l.RequestBodyLimit == 0 {
 		l.RequestBodyLimit = 2000
 	}
@@ -58,7 +52,6 @@ func (l *Logger) Logger() gin.HandlerFunc {
 	logger := logger.Default.Desugar()
 
 	return ginlog.Logger(logger, ginlog.Options{
-		TimeFormat:        time.RFC3339,
 		RequestBodyLimit:  int(l.RequestBodyLimit),
 		RequestQueryLimit: int(l.RequestQueryLimit),
 		ResponseBodyLimit: int(l.ResponseBodyLimit),
